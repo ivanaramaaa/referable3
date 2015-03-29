@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   belongs_to :referrer, class_name: "User", foreign_key: "referrer_id"
   has_many :referrals, class_name: "User", foreign_key: "referrer_id"
 
-  validates :email, :username, uniqueness: true
+  validates :email, uniqueness: true
   validates :referral_code, uniqueness: true
 
   before_create :create_referral_code

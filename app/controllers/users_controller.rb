@@ -2,7 +2,10 @@ class UsersController < ApplicationController
   
   #only before new action, call skip_to_refer
   before_action :skip_to_refer, :only => :new
-
+  
+  #authenticate admin user before accessing admin action
+  before_action :authenticate_admin!, :only => :admin
+  
   def new
 		@user = User.new
 	end
@@ -63,13 +66,17 @@ class UsersController < ApplicationController
 		end 
 	end
 
-	def leaders
-		@users = User.all
+	def admin
+		  #allow admin acess to all users
+      @users = User.all
+
+      #needed for testing
+      cookies.delete :h_email
 	end
 
 	private
 	def user_params
-		params.require(:user).permit(:email, :username)
+		params.require(:user).permit(:email)
 	end
 
 end
